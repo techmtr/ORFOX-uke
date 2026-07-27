@@ -112,18 +112,18 @@ jobs:
           git config --global color.ui true
 
       # ──────────────────────────────────────────────
-      # 4. Initialize & sync OrangeFox manifest
+      # 4. Clone OrangeFox sync script & sync sources
       # ──────────────────────────────────────────────
-      - name: Initialize OrangeFox manifest
+      - name: Clone OrangeFox sync repo
         run: |
-          mkdir -p OrangeFox && cd OrangeFox
-          repo init -u ${{ env.MANIFEST }} -b ${{ env.FOX_BRANCH }} --depth=1
+          cd ${{ github.workspace }}
+          git clone https://gitlab.com/OrangeFox/sync.git OFSync
         working-directory: ${{ github.workspace }}
 
       - name: Sync OrangeFox sources
         run: |
-          cd OrangeFox
-          repo sync -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune
+          cd ${{ github.workspace }}/OFSync
+          ./orangefox_sync.sh --branch 14.1 --path ${{ github.workspace }}/fox_14.1
         working-directory: ${{ github.workspace }}
 
       # ──────────────────────────────────────────────
@@ -131,7 +131,7 @@ jobs:
       # ──────────────────────────────────────────────
       - name: Clone device tree
         run: |
-          cd OrangeFox
+          cd ${{ github.workspace }}/fox_14.1
           git clone ${{ env.DT_LINK }} -b ${{ env.DT_BRANCH }} --depth=1 ${{ env.DT_PATH }}
         working-directory: ${{ github.workspace }}
 
@@ -162,7 +162,7 @@ jobs:
       # ──────────────────────────────────────────────
       - name: Build OrangeFox Recovery
         run: |
-          cd OrangeFox
+          cd ${{ github.workspace }}/fox_14.1
           source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
           export FOX_BUILD_DEVICE=${{ env.DEVICE }}
@@ -177,7 +177,7 @@ jobs:
       - name: Gather build output
         id: output
         run: |
-          cd OrangeFox
+          cd ${{ github.workspace }}/fox_14.1
           OUT_DIR="out/target/product/${{ env.DEVICE }}"
           echo "out_dir=${OUT_DIR}" >> $GITHUB_OUTPUT
 
@@ -211,8 +211,8 @@ jobs:
         with:
           name: OrangeFox-Recovery-${{ env.DEVICE }}-${{ steps.output.outputs.build_date }}
           path: |
-            ${{ github.workspace }}/OrangeFox/${{ steps.output.outputs.fox_zip }}
-            ${{ github.workspace }}/OrangeFox/${{ steps.output.outputs.sha256_file }}
+            ${{ github.workspace }}/fox_14.1/${{ steps.output.outputs.fox_zip }}
+            ${{ github.workspace }}/fox_14.1/${{ steps.output.outputs.sha256_file }}
           retention-days: 14
 
       - name: Upload recovery image
@@ -220,7 +220,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: recovery-img-${{ env.DEVICE }}-${{ steps.output.outputs.build_date }}
-          path: ${{ github.workspace }}/OrangeFox/${{ steps.output.outputs.recovery_img }}
+          path: ${{ github.workspace }}/fox_14.1/${{ steps.output.outputs.recovery_img }}
           retention-days: 14
 
       # ──────────────────────────────────────────────
@@ -244,7 +244,7 @@ jobs:
             ### Checksums
             See the `.sha256` file for verification.
           files: |
-            ${{ github.workspace }}/OrangeFox/${{ steps.output.outputs.fox_zip }}
-            ${{ github.workspace }}/OrangeFox/${{ steps.output.outputs.sha256_file }}
+            ${{ github.workspace }}/fox_14.1/${{ steps.output.outputs.fox_zip }}
+            ${{ github.workspace }}/fox_14.1/${{ steps.output.outputs.sha256_file }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
