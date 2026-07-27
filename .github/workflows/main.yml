@@ -73,18 +73,17 @@ jobs:
           # Clean apt cache
           sudo apt-get clean
           sudo apt-get autoremove -y
-          # Create swap for build (skip if already active)
-          if ! swapon --show | grep -q '/'; then
-            sudo fallocate -l 16G /mnt/swapfile
-            sudo chmod 600 /mnt/swapfile
-            sudo mkswap /mnt/swapfile
-            sudo swapon /mnt/swapfile
-          else
-            echo "Swap already active, skipping creation"
-          fi
+          # Turn off any default runner swap and create a clean 16GB swap
+          sudo swapoff -a || true
+          sudo rm -f /swapfile /mnt/swapfile || true
+          sudo fallocate -l 16G /mnt/primary_swap
+          sudo chmod 600 /mnt/primary_swap
+          sudo mkswap /mnt/primary_swap
+          sudo swapon /mnt/primary_swap
+          echo "==> Active Swap:"
+          swapon --show
           echo "==> Disk space AFTER cleanup:"
           df -h /
-          swapon --show
 
       # ──────────────────────────────────────────────
       # 2. Install build dependencies
@@ -169,8 +168,8 @@ jobs:
           export ALLOW_MISSING_DEPENDENCIES=true
           export FOX_BUILD_DEVICE=${{ env.DEVICE }}
           export FIXED_DECRYPT=${{ inputs.FIXED_DECRYPT }}
-          export FOX_BUILD_TYPE=${{ inputs.BUILD_TYPE }}
-          export GOGC=50
+          export GOGC=30
+          export SOONG_UI_NUM_PARALLEL_JOBS=2
           lunch twrp_${{ env.DEVICE }}-ap2a-eng && mka -j2 recoveryimage
         working-directory: ${{ github.workspace }}
 
