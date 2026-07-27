@@ -19,13 +19,12 @@
 #
 
 # screen settings
-# e.g. if the aspect ratio is 19:9 then use 19*120 (=2280)
 OF_SCREEN_H := 3200
-OF_STATUS_H := 115
-OF_HIDE_NOTCH := 1
-OF_CLOCK_POS := 1
-OF_STATUS_INDENT_LEFT := 56
-OF_STATUS_INDENT_RIGHT := 48
+OF_STATUS_H := 100
+OF_HIDE_NOTCH := 0
+OF_CLOCK_POS := 2
+OF_STATUS_INDENT_LEFT := 0
+OF_STATUS_INDENT_RIGHT := 0
 OF_ALLOW_DISABLE_NAVBAR := 0
 OF_USE_GREEN_LED := 0
 
@@ -98,4 +97,9 @@ OF_FORCE_CASEFOLDING := 1
 OF_SKIP_MULTIUSER_FOLDERS_ON_FORMAT := 1
 
 # Set to the maintainer's name
-OF_MAINTAINER := techmtr
+OF_MAINTAINER := azzychy
+
+# Size reduction to fit Xiaomi Pad 7 100MB recovery partition limit
+FOX_EXCLUDE_NANO_EDITOR := 1
+FOX_DELETE_AROMA := 1
+
