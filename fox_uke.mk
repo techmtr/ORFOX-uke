@@ -97,7 +97,7 @@ OF_FORCE_CASEFOLDING := 1
 OF_SKIP_MULTIUSER_FOLDERS_ON_FORMAT := 1
 
 # Set to the maintainer's name
-OF_MAINTAINER := azzychy
+OF_MAINTAINER := techmtr
 
 # Size reduction to fit Xiaomi Pad 7 100MB recovery partition limit
 FOX_EXCLUDE_NANO_EDITOR := 1
