@@ -73,11 +73,15 @@ jobs:
           # Clean apt cache
           sudo apt-get clean
           sudo apt-get autoremove -y
-          # Create swap for build
-          sudo fallocate -l 8G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
+          # Create swap for build (skip if already active)
+          if ! swapon --show | grep -q '/'; then
+            sudo fallocate -l 8G /mnt/swapfile
+            sudo chmod 600 /mnt/swapfile
+            sudo mkswap /mnt/swapfile
+            sudo swapon /mnt/swapfile
+          else
+            echo "Swap already active, skipping creation"
+          fi
           echo "==> Disk space AFTER cleanup:"
           df -h /
 
