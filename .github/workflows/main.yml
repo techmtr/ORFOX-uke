@@ -168,7 +168,7 @@ jobs:
           export FOX_BUILD_DEVICE=${{ env.DEVICE }}
           export FIXED_DECRYPT=${{ inputs.FIXED_DECRYPT }}
           export FOX_BUILD_TYPE=${{ inputs.BUILD_TYPE }}
-          lunch twrp_${{ env.DEVICE }}-eng && mka adbd recoveryimage
+          lunch twrp_${{ env.DEVICE }}-ap2a-eng && mka adbd recoveryimage
         working-directory: ${{ github.workspace }}
 
       # ──────────────────────────────────────────────
