@@ -151,7 +151,7 @@ TWRP_INCLUDE_LOGCAT := true
 TW_INCLUDE_FASTBOOTD := true
 
 # Other TWRP Configurations
-TW_THEME := landscape_hdpi
+TW_THEME := portrait_hdpi
 TW_ROTATION := 0
 TW_FRAMERATE := 120
 RECOVERY_SDCARD_ON_DATA := true
