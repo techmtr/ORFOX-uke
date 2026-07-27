@@ -54,6 +54,9 @@ on init
 
 on boot
     setprop sys.usb.config adb
+    # Force 120Hz refresh rate
+    write /sys/class/drm/sde-crtc-0/dynamic_fps 120
+    write /sys/class/graphics/fb0/dynamic_fps 120
 
 on property:twrp.modules.loaded=true
     # 1. Create the mount point and mount the modem partition
