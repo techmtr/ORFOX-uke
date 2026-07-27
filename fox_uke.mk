@@ -97,4 +97,4 @@ OF_ENABLE_FRP_ADDON := 1
 # OF_FORCE_CASEFOLDING := 1
 
 # Set to the maintainer's name
-OF_MAINTAINER := azzychy
+OF_MAINTAINER := techmtr
