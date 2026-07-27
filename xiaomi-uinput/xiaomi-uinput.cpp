@@ -1,21 +1,15 @@
 /*
-                   _ooOoo_
-                  o8888888o
-                  88" . "88
-                  (| -_- |)
-                  O\  =  /O
-               ____/`---'\____
-             .'  \|     |//  `.
-            /  \|||  :  |||//  \
-           /  _||||| -:- |||||-  \
-           |   | \  -  /// |   |
-           | \_|  ''\---/''  |   |
-           \  .-\__  `-`  ___/-. /
-         ___`. .'  /--.--\  `. . __
-      ."" '<  `.___\_<|>_/___.'  >'"".
-     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-     \  \ `-.   \_ __\ /__ _/   .-` /  /
-======`-.____`-.___\_____/___.-`____.-'======
-                   `=---='
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-*/
+ * xiaomi-uinput: Touch input helper daemon for recovery
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char** argv) {
+    printf("xiaomi-uinput: touch daemon initialized\n");
+    while (1) {
+        pause();
+    }
+    return 0;
+}
